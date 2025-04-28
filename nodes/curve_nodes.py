@@ -1614,8 +1614,14 @@ class CreateShapeJointOnPath:
     FUNCTION = "create"
     CATEGORY = "KJNodes/image/generate"
     DESCRIPTION = """
-Draws a rectangle defined by the first and last points of a coordinate list.
-The width is controlled by shape_width, and the length is the distance between the first and last points.
+The width is controlled by shape_width, and the length is the distance between the first and second point.
+Points after second control rotation with pivot point being the first one.
+Optional pivot_coordinates acts as root for main shape.
+
+Set total_frames to video lenght.
+Use "Controlpoints" option to set input coordinates from spline editor.
+Use "Path" option to set input pivot_coordinates coordinates from spline editor.
+bounce_between disables easing_function if set above 0.0 and acts as ease in out + bounce when reaching points
 """
 
     @classmethod
