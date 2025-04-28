@@ -248,6 +248,42 @@ output types:
                 }
      
 
+class SplinePathDistanceDisplay:
+    """
+    Display the total path distance for a set of coordinates, similar to RgthreeDisplayInt.
+    """
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "coordinates": ("STRING", {"forceInput": True}),
+            },
+            "optional": {
+                "mask_width": ("INT", {"default": 512, "min": 8, "max": 4096, "step": 8}),
+                "mask_height": ("INT", {"default": 512, "min": 8, "max": 4096, "step": 8}),
+            }
+        }
+
+    RETURN_TYPES = ()
+    FUNCTION = "main"
+    OUTPUT_NODE = True
+    CATEGORY = "KJNodes/weights"
+    NAME = "Spline Path Distance Display"
+
+    def main(self, coordinates, mask_width=512, mask_height=512):
+        import json, math
+        coords = json.loads(coordinates)
+        if len(coords) < 2:
+            distance = 0.0
+        else:
+            distance = 0.0
+            for i in range(1, len(coords)):
+                x0, y0 = coords[i-1]["x"], coords[i-1]["y"]
+                x1, y1 = coords[i]["x"], coords[i]["y"]
+                distance += math.sqrt((x1 - x0) ** 2 + (y1 - y0) ** 2)
+        return {"ui": {"text": (f"Total path distance: {distance:.2f}",)}}
+
+
 class CreateShapeMaskOnPath:
     
     RETURN_TYPES = ("MASK", "MASK",)
@@ -1571,6 +1607,7 @@ Cuts the masked area from the image, and drags it along the path. If inpaint is 
         out_masks = torch.cat(masks_list, dim=0)
 
         return (out_images, out_masks)
+
 class CreateShapeJointOnPath:
     RETURN_TYPES = ("IMAGE",)
     RETURN_NAMES = ("image",)
