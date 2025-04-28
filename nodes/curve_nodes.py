@@ -246,7 +246,8 @@ output types:
                 "ui": {"bg_image": [img_base64]},
                 "result":(masks_out, json.dumps(coordinates), out_floats, len(out_floats) , json.dumps(normalized))
                 }
-     
+
+
 class CreateShapeMaskOnPath:
     
     RETURN_TYPES = ("MASK", "MASK",)
